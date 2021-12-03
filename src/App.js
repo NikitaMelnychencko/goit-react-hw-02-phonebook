@@ -7,6 +7,7 @@ import { alert } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import { nanoid } from 'nanoid';
+import { logRoles } from '@testing-library/dom';
 
 class App extends Component {
   state = {
@@ -19,14 +20,14 @@ class App extends Component {
     filter: '',
   };
   formSubmitHandler = data => {
-    let result = this.state.contacts.filter(elem =>
+    let isUniqueName = this.state.contacts.find(elem =>
       elem.name.includes(data.name),
     );
 
-    if (result.length > 0) {
+    if (isUniqueName) {
       const myAlert = alert({
         title: 'Alert',
-        text: `${result[0].name} is already in contacts`,
+        text: `${isUniqueName.name} is already in contacts`,
       });
     } else {
       const userId = { id: nanoid() };
