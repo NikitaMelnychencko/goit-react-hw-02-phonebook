@@ -7,7 +7,6 @@ import { alert } from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import { nanoid } from 'nanoid';
-import { logRoles } from '@testing-library/dom';
 
 class App extends Component {
   state = {
@@ -24,16 +23,16 @@ class App extends Component {
       elem.name.includes(data.name),
     );
 
-    if (isUniqueName) {
-      const myAlert = alert({
-        title: 'Alert',
-        text: `${isUniqueName.name} is already in contacts`,
-      });
-    } else {
+    if (!isUniqueName) {
       const userId = { id: nanoid() };
       this.setState(prevState => ({
         contacts: [...prevState.contacts, { ...userId, ...data }],
       }));
+    } else {
+      const myAlert = alert({
+        title: 'Alert',
+        text: `${isUniqueName.name} is already in contacts`,
+      });
     }
   };
   handleChange = e => {
